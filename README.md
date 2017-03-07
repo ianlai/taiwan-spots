@@ -1,8 +1,8 @@
 # TaiwanSpots (Web App Practice) 
 A website lets user share the information of Taiwan's local spots. A practice of Node.js and Express.
 
-Frondend: HTML + CSS + JavaScript
-Backend:  Node.js + Express + MongoDB
+- Frondend: HTML + CSS + JavaScript
+- Backend:  Node.js + Express + MongoDB
 
 ## Log of Different Versions
 
