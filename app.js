@@ -1,4 +1,5 @@
-//1. Refactoring routes: three files
+//1. Associate comment and user
+//     - Save author's username to a comment automatically
 
 var express       = require("express"),
     bodyParser    = require("body-parser"),
@@ -16,11 +17,11 @@ var commentRoutes    = require("./routes/comments"),
     
 var app = express();
 
-mongoose.connect("mongodb://localhost/yelpcamp_v7");
+mongoose.connect("mongodb://localhost/yelpcamp_v8");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
-seedDB();
+//seedDB(); //seed the database
 
 //======================
 //Passport Configuration
