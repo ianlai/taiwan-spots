@@ -1,6 +1,7 @@
 # TaiwanSpots (Web App Practice) 
 A website lets user share the information of Taiwan's local spots. A practice of Node.js and Express.
 
+- URL: https://taiwanspots.herokuapp.com/
 - Frondend: HTML + CSS + JavaScript
 - Backend:  Node.js + Express + MongoDB
 
