@@ -1,5 +1,6 @@
-//1. Associate comment and user
-//     - Save author's username to a comment automatically
+//1. Associate campgrounds and user
+//     - Unauthenticated user cannot create a campground
+//     - Save username+id to a newly created campground
 
 var express       = require("express"),
     bodyParser    = require("body-parser"),
