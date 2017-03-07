@@ -2,10 +2,15 @@ var express = require("express");
 var router = express.Router({mergeParams: true}); 
 var Campground = require("../models/campground");
 var Comment    = require("../models/comment");
+var middleware = require("../middleware");
 
 //==========================
 //      Comment ROUTE
 //==========================
+
+//EDIT:    GET    /campgrounds/:id/comments/:comment_id/edit 
+//UPDATE:  PUT    /campgrounds/:id/comments/:comment_id
+//DELETE:  DELETE /campgrounds/:id/comments/:comment_id
 
 // Comments new 
 router.get("/new", isLoggedIn, function(req,res){
@@ -43,6 +48,42 @@ router.post("/", isLoggedIn, function(req,res){
             });
       }
    });
+});
+
+// Comment edit
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+        if(err){
+            res.redirect("/campgrounds");
+        }else{ 
+            res.render("comments/edit", {
+                campground_id: req.params.id,  //camground id (only id)
+                comment: foundComment          //comment (whole object)
+            });
+        }
+    });
+});
+
+// Comment update
+router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
+   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+      if(err){
+          res.redirect("back");
+      }else{
+          res.redirect("/campgrounds/" + req.params.id);
+      }
+   }); 
+});
+
+// Comment delete
+router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    }); 
 });
 
 //middleware

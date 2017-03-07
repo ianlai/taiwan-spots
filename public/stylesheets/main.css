@@ -5,3 +5,38 @@
 .thumbnail .caption-full{
     padding: 9px;
 } 
+
+#delete-form{
+    display: inline;
+}
+
+#owner{
+    display: inline;
+    color: green;
+}
+
+.inline{
+    display: inline;
+}
+
+.comment-text{
+     width: 80%; 
+}
+
+.divider { 
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  border-width: 1px;
+  border-color: #c3e0f3;
+} 
+
+#link-to-index{
+    text-decoration: none;
+}
+
+.people-name{
+    color: #126894;
+}
+#title{
+    color: #409280;
+}

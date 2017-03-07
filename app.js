@@ -1,9 +1,16 @@
-//1. Associate campgrounds and user
-//     - Unauthenticated user cannot create a campground
-//     - Save username+id to a newly created campground
+//1. Edit campground
+//2. Delete campground
+//3. Authorization  (only campground owner can edit/delete it)
+//    - middleware to protect at route
+//    - hide the button
+//4. Edit comment
+//5. Delete comment 
+//6. Authorization for 
+//7. Refactor middleware
 
 var express       = require("express"),
     bodyParser    = require("body-parser"),
+    methodOverride= require("method-override"),
     mongoose      = require("mongoose"),
     passport      = require("passport"),
     LocalStrategy = require("passport-local"),
@@ -18,10 +25,11 @@ var commentRoutes    = require("./routes/comments"),
     
 var app = express();
 
-mongoose.connect("mongodb://localhost/yelpcamp_v8");
+mongoose.connect("mongodb://localhost/yelpcamp_v10");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
+app.use(methodOverride("_method"));
 //seedDB(); //seed the database
 
 //======================
