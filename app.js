@@ -1,5 +1,29 @@
-//1. Styling
+//1. Authentication
 
+//   Part1
+//   - Install all packages needed for auth
+//   - Define User model
+
+//   Part2
+//   - Configure Passport
+//   - Add register routes
+//   - Add register template
+
+//   Part3
+//   - Add login routes
+//   - Add login template
+ 
+//   Part4 
+//   - Add logout route
+//   - Prevent user from adding a comment if not signed in (middleware)
+//   - Add links to navbar 
+
+//   Part5
+//   - Show/hide auth links in navbar correctly
+
+
+
+    
 //INDEX    /campgrounds
 //NEW      /campgrounds/new
 //CREATE   /campgrounds
@@ -9,19 +33,42 @@
 //CREATE   /campgrounds/:id 
 
 
-var express    = require("express"),
-    bodyParser = require("body-parser"),
-    mongoose   = require("mongoose"),
-    Campground = require("./models/campground"),
-    Comment    = require("./models/comment"),
-    seedDB     = require("./seeds");
+var express       = require("express"),
+    bodyParser    = require("body-parser"),
+    mongoose      = require("mongoose"),
+    passport      = require("passport"),
+    LocalStrategy = require("passport-local"),
+    Campground    = require("./models/campground"),
+    Comment       = require("./models/comment"),
+    User          = require("./models/user"),
+    seedDB        = require("./seeds");
 var app = express();
 
-mongoose.connect("mongodb://localhost/yelpcamp_v5");
+mongoose.connect("mongodb://localhost/yelpcamp_v6");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
 seedDB();
+
+//======================
+//Passport Configuration
+//======================
+app.use(require("express-session")({
+    secret: "Winter is coming.",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//pass req.user to currentUser for every route
+app.use(function(req, res, next){
+   res.locals.currentUser = req.user;
+   next(); 
+});
 
 //==========================
 //        Campground ROUTE
@@ -79,7 +126,7 @@ Campground.findById(req.params.id).populate("comments").exec(function(err, found
 //==========================
 //      Comment ROUTE
 //==========================
-app.get("/campgrounds/:id/comments/new", function(req,res){
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req,res){
    Campground.findById(req.params.id, function(err, campground){
       if(err){
           console.log(err);
@@ -89,7 +136,7 @@ app.get("/campgrounds/:id/comments/new", function(req,res){
    });
 }); 
 
-app.post("/campgrounds/:id/comments", function(req,res){
+app.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
    //lookup campground using ID
    Campground.findById(req.params.id, function(err, campground){
       if(err){
@@ -112,6 +159,57 @@ app.post("/campgrounds/:id/comments", function(req,res){
    //redirect campground to 
 });
 
+//==========================
+//        Auth ROUTE
+//==========================
+
+//Show register form 
+app.get("/register", function(req, res){
+   res.render("register"); 
+});
+
+//handle sign up logic
+app.post("/register", function(req,res){
+    var newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register");  //end the function if err
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/campgrounds");
+        });
+    });
+});
+
+// show login form 
+app.get("/login",function(req, res){
+    res.render("login");
+});
+
+//handle login logic, use middleware 
+//just like: 
+//app.post("/login", middleware, callback)
+app.post("/login", passport.authenticate("local",
+    {
+        successRedirect: "/campgrounds",
+        failureRedirect: "/login"
+    }),
+    function(req, res){
+});
+
+//logout route
+app.get("/logout", function(req,res){
+    req.logout();  //came from package
+    res.redirect("/campgrounds");
+}); 
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){  
+        return next();
+    }
+    res.redirect("/login");
+}
 
 
 app.listen(process.env.PORT, process.env.IP, function(){

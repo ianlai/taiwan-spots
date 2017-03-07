@@ -1,5 +1,5 @@
 {
-  "name": "yelpcamp-v5",
+  "name": "yelpcamp-v6",
   "version": "1.0.0",
   "description": "Yelp Camp Version1",
   "main": "app.js",
@@ -12,6 +12,10 @@
     "body-parser": "^1.16.1",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
-    "mongoose": "^4.8.2"
+    "express-session": "^1.15.1",
+    "mongoose": "^4.8.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
   }
 }
