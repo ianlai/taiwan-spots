@@ -1,5 +1,5 @@
 var express = require("express");
-var router = express.Router(); 
+var router   = express.Router(); 
 var passport = require("passport");
 var User     = require("../models/user");
 
@@ -29,8 +29,8 @@ router.post("/register", function(req,res){
             return res.redirect("/register");  //end the function if err
         }
         passport.authenticate("local")(req, res, function(){
-            req.flash("success", "Welcome to YelpCamp, " + user.username);
-            res.redirect("/campgrounds");
+            req.flash("success", "Welcome to TaiwanSpots, " + user.username);
+            res.redirect("/spots");
         });
     });
 });
@@ -45,7 +45,7 @@ router.get("/login",function(req, res){
 //app.post("/login", middleware, callback)
 router.post("/login", passport.authenticate("local",
     {
-        successRedirect: "/campgrounds",
+        successRedirect: "/spots",
         failureRedirect: "/login"
     }),
     function(req, res){
@@ -55,7 +55,7 @@ router.post("/login", passport.authenticate("local",
 router.get("/logout", function(req,res){
     req.logout();  //came from package
     req.flash("success", "You have logged out.");
-    res.redirect("/campgrounds");
+    res.redirect("/spots");
 }); 
 
 module.exports = router;

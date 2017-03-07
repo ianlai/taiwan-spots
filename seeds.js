@@ -1,8 +1,8 @@
 var mongoose   = require("mongoose"),
-    Campground = require("./models/campground"),
+    Spot       = require("./models/spot"),
     Comment    = require("./models/comment");
     
-var data_campground = [
+var data_spot = [
     {
         name: "Bryce Canyon", 
         image: "http://i.imgur.com/FBmfqAt.jpg", 
@@ -32,41 +32,41 @@ var data_comment = [
 ]
 
 function seedDB(){
-    Campground.remove({}, function(err){
+    Spot.remove({}, function(err){
        if(err){
            console.log(err);
         }
-        console.log("All campgrounds removed!");
+        console.log("All spots removed!");
         Comment.remove({}, function(err){
             if(err){
                 console.log(err);
             };
             console.log("All comments removed!");
        
-            data_campground.forEach(function(seed){
-                Campground.create(seed, function(err, campground){
+            data_spot.forEach(function(seed){
+                Spot.create(seed, function(err, spot){
                     if(err){
                         console.log(err);
                     } else{
-                        console.log("-- Campground created");
+                        console.log("-- Spot created");
                      
                         Comment.create(data_comment[0], function(err, comment){
                             if(err){
                                 console.log(err);
                             } else{
-                                campground.comments.push(comment);
-                                campground.save();
+                                spot.comments.push(comment);
+                                spot.save();
                                 console.log("----- Comment[0] created")
-                                //console.log(campground.comments);
+                                //console.log(spot.comments);
                             
                                 Comment.create(data_comment[1], function(err, comment){
                                     if(err){
                                         console.log(err);
                                     } else{
-                                        campground.comments.push(comment);
-                                        campground.save();
+                                        spot.comments.push(comment);
+                                        spot.save();
                                         console.log("----- Comment[1] created")
-                                        //console.log(campground.comments);
+                                        //console.log(spot.comments);
                                     }
                                 });
                             }

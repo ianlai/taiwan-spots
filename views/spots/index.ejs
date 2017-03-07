@@ -1,0 +1,31 @@
+<% include ../partials/header %>
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1 style="text-align:center">Welcome to TaiwanSpots</h1>
+            <p style="text-align:center">Enjoy the cool, fantastic, and unique spots in Taiwan recommended by local people.</p>
+            <p style="width:50%; margin:auto;" >
+                <a  style="width:100%; margin: 10px auto 0 auto;" class="btn btn-primary btn-large" href="/spots/new">Add New Spot</a>
+            </p>
+        </div>
+    </header>
+    
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% spots.forEach(function(spot){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src=" <%= spot.image %> ">
+                    <h4> <%= spot.name %> </h4>
+                    <!--<% if(currentUser && spot.author.id.equals(currentUser._id)){ %>-->
+                    <!--    <span id="owner" class="glyphicon glyphicon-user glyphicon-large" aria-hidden="true"></span> -->
+                    <!--<% } %>-->
+                    <p>
+                        <a href="/spots/<%=spot._id%>" class="btn btn-primary">More Info</a>
+                    </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+</div>
+<% include ../partials/footer %>

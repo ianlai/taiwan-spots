@@ -38,27 +38,27 @@ body {
   background-repeat: no-repeat;
   opacity: 0;
   z-index: 0;
-  animation: imageAnimation 50s linear infinite; 
+  animation: imageAnimation 40s linear infinite; 
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(/images/landing3.jpg) 
+  background-image: url(/images/landing/canoe.jpg) 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(/images/landing1.jpg);
-  animation-delay: 5s; 
+  background-image: url(/images/landing/firework.jpg);
+  animation-delay: 8s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(/images/landing2.jpg);
-  animation-delay: 10s; 
+  background-image: url(/images/landing/lantern.jpg);
+  animation-delay: 16s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(/images/landing4.jpg);
-  animation-delay: 15s; 
+  background-image: url(/images/landing/luwei.jpg);
+  animation-delay: 24s; 
 }
 .slideshow li:nth-child(5) { 
-  background-image: url(/images/landing5.jpg);
-  animation-delay: 20s; 
+  background-image: url(/images/landing/sunmoonlake.jpg);
+  animation-delay: 32s; 
 }
 
 @keyframes imageAnimation { 

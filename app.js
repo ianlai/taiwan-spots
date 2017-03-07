@@ -1,6 +1,4 @@
-//1. Flash message
-//2. Refactor register and login page
-//3. Refactor landing page
+//1. Change to Taiwan Spot
 
 var express       = require("express"),
     bodyParser    = require("body-parser"),
@@ -9,17 +7,17 @@ var express       = require("express"),
     passport      = require("passport"),
     LocalStrategy = require("passport-local"),
     flash         = require("connect-flash"),
-    Campground    = require("./models/campground"),
+    Spot          = require("./models/spot"),
     Comment       = require("./models/comment"),
     User          = require("./models/user"),
     seedDB        = require("./seeds");
     
 var commentRoutes    = require("./routes/comments"),
-    campgroundRoutes = require("./routes/campgrounds"),
+    spotRoutes       = require("./routes/spots"),
     indexRoutes      = require("./routes/index");
     
 var app = express();
-var url = process.env.DATABASEURL || "mongodb://localhost/yelpcamp_local"
+var url = process.env.DATABASEURL || "mongodb://localhost/taiwanspots_v12"
 mongoose.connect(url); 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -56,9 +54,9 @@ app.use(function(req, res, next){
 //======================
 
 app.use("/", indexRoutes);
-app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/comments/",commentRoutes);
+app.use("/spots", spotRoutes);
+app.use("/spots/:id/comments/",commentRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("The YelpCamp server has started.");
+    console.log("The TaiwanSpots server has started.");
 });

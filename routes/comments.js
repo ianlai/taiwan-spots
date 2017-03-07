@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router({mergeParams: true}); 
-var Campground = require("../models/campground");
+var Spot       = require("../models/spot");
 var Comment    = require("../models/comment");
 var middleware = require("../middleware");
 
@@ -8,28 +8,28 @@ var middleware = require("../middleware");
 //      Comment ROUTE
 //==========================
 
-//EDIT:    GET    /campgrounds/:id/comments/:comment_id/edit 
-//UPDATE:  PUT    /campgrounds/:id/comments/:comment_id
-//DELETE:  DELETE /campgrounds/:id/comments/:comment_id
+//EDIT:    GET    /spots/:id/comments/:comment_id/edit 
+//UPDATE:  PUT    /spots/:id/comments/:comment_id
+//DELETE:  DELETE /spots/:id/comments/:comment_id
 
 // Comments new 
 router.get("/new", middleware.isLoggedIn, function(req,res){
-   Campground.findById(req.params.id, function(err, campground){
+   Spot.findById(req.params.id, function(err, spot){
       if(err){
           console.log(err);
       } else{
-             res.render("comments/new", {campground: campground}); 
+             res.render("comments/new", {spot: spot}); 
       }
    });
 }); 
 
 // Comment create
 router.post("/", middleware.isLoggedIn, function(req,res){
-   //lookup campground using ID
-   Campground.findById(req.params.id, function(err, campground){
+   //lookup spot using ID
+   Spot.findById(req.params.id, function(err, spot){
       if(err){
           console.log(err);
-          res.redirect("/campgrounds");
+          res.redirect("/spots");
       } else{
             Comment.create(req.body.comment, function(err, comment){
                if(err){
@@ -41,9 +41,9 @@ router.post("/", middleware.isLoggedIn, function(req,res){
                    comment.save();
 
                    //save comment
-                   campground.comments.push(comment);
-                   campground.save();
-                   res.redirect("/campgrounds/" + campground._id);
+                   spot.comments.push(comment);
+                   spot.save();
+                   res.redirect("/spots/" + spot._id);
                }
             });
       }
@@ -54,10 +54,10 @@ router.post("/", middleware.isLoggedIn, function(req,res){
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if(err){
-            res.redirect("/campgrounds");
+            res.redirect("/spots");
         }else{ 
             res.render("comments/edit", {
-                campground_id: req.params.id,  //camground id (only id)
+                spot_id: req.params.id,  //camground id (only id)
                 comment: foundComment          //comment (whole object)
             });
         }
@@ -71,7 +71,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
           res.redirect("back");
       }else{
           req.flash("success", "Comment updated.");
-          res.redirect("/campgrounds/" + req.params.id);
+          res.redirect("/spots/" + req.params.id);
       }
    }); 
 });
@@ -83,7 +83,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
             res.redirect("back");
         }else{
             req.flash("success", "Comment deleted.");
-            res.redirect("/campgrounds/" + req.params.id);
+            res.redirect("/spots/" + req.params.id);
         }
     }); 
 });
