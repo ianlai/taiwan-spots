@@ -6,11 +6,13 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){  
         return next();
     }
+    req.flash("error", "You need to log in to continue.");
     res.redirect("/login");
 }
 
 middlewareObj.checkCampgroundOwnership = function(req, res, next){ 
     if(!req.isAuthenticated()){
+        req.flash("error", "You need to log in to continue.");
         res.redirect("back");
         console.log("Authentication check: failed");
     }else{
@@ -24,6 +26,7 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
                     next();
                 }else{
                     console.log("Authrization check: dismatch " + foundCampground.author.id + " " + req.user._id)
+                    req.flash("error", "You can only edit the post you own.");
                     res.redirect("back");
                 }
             }
@@ -33,6 +36,7 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
     
 middlewareObj.checkCommentOwnership = function(req, res, next){ 
     if(!req.isAuthenticated()){
+        req.flash("error", "You need to log in to continue.");
         res.redirect("back");
         console.log("Authentication check: failed");
     }else{
@@ -46,6 +50,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
                     next();
                 }else{
                     //console.log("Authrization check: dismatch " + foundCampground.author.id + " " + req.user._id)
+                    req.flash("error", "You can only edit the comment you post.");
                     res.redirect("back");
                 }
             }

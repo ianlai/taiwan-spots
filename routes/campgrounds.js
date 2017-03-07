@@ -49,7 +49,9 @@ router.get("/:id", function(req, res){
     //Campground.findById(req.params.id, function(err, foundCampground){    //still comment ID only
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){  //change to real comment
           if(err){
+              req.flash("error", "The post cannot be found.");
               console.log(err);
+              res.redirect("/campgrounds");
           }else{
               //console.log(foundCampground);
               res.render("campgrounds/show", {campground: foundCampground});
@@ -74,6 +76,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
         if(err){
             res.redirect("/campgrounds");
         }else{
+            req.flash("success", "Campground updated.");
             res.redirect("/campgrounds/" + req.params.id);
         }
     });
@@ -85,7 +88,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
         if(err){
             res.redirect("/campgrounds");
         }else{
-            //res.send("delete");
+            req.flash("success", "Campground deleted.");
             res.redirect("/campgrounds");
         }
     });

@@ -25,3 +25,15 @@
             </div>
         </div>
     </nav>
+    <div class="container">
+        <% if(flash_success && flash_success.length>0) { %>
+        <div class="alert alert-success" >
+            <%=flash_success%>
+        </div>
+        <% } %>
+        <% if(flash_error && flash_error.length>0) { %>
+        <div class="alert alert-danger" >
+            <%=flash_error%>
+        </div>
+        <% } %>
+    </div>

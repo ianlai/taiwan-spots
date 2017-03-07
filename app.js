@@ -1,12 +1,6 @@
-//1. Edit campground
-//2. Delete campground
-//3. Authorization  (only campground owner can edit/delete it)
-//    - middleware to protect at route
-//    - hide the button
-//4. Edit comment
-//5. Delete comment 
-//6. Authorization for 
-//7. Refactor middleware
+//1. Flash message
+//2. Refactor register and login page
+//3. Refactor landing page
 
 var express       = require("express"),
     bodyParser    = require("body-parser"),
@@ -14,6 +8,7 @@ var express       = require("express"),
     mongoose      = require("mongoose"),
     passport      = require("passport"),
     LocalStrategy = require("passport-local"),
+    flash         = require("connect-flash"),
     Campground    = require("./models/campground"),
     Comment       = require("./models/comment"),
     User          = require("./models/user"),
@@ -24,12 +19,14 @@ var commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index");
     
 var app = express();
+var url = process.env.DATABASEURL || "mongodb://localhost/yelpcamp_local"
+mongoose.connect(url); 
 
-mongoose.connect("mongodb://localhost/yelpcamp_v10");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); 
 app.use(methodOverride("_method"));
+app.use(flash());
 //seedDB(); //seed the database
 
 //======================
@@ -49,6 +46,8 @@ passport.deserializeUser(User.deserializeUser());
 //pass req.user to currentUser for every route
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
+   res.locals.flash_success = req.flash("success");
+   res.locals.flash_error = req.flash("error");
    next(); 
 });
 

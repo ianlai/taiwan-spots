@@ -1,15 +1,17 @@
 {
-  "name": "yelpcamp-v10",
+  "name": "yelpcamp-v11",
   "version": "1.0.0",
   "description": "Yelp Camp Version1",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "Ian Lai",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.16.1",
+    "connect-flash": "^0.1.1",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
