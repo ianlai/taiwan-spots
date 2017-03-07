@@ -1,5 +1,4 @@
-//1. Add the function to add the comments (nested route)
-//2. Separate the ejs files to two different folders accordingly (campgrounds and comments)
+//1. Styling
 
 //INDEX    /campgrounds
 //NEW      /campgrounds/new
@@ -18,10 +17,10 @@ var express    = require("express"),
     seedDB     = require("./seeds");
 var app = express();
 
-mongoose.connect("mongodb://localhost/yelpcamp_v4");
+mongoose.connect("mongodb://localhost/yelpcamp_v5");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
+app.use(express.static(__dirname + "/public")); 
 seedDB();
 
 //==========================
